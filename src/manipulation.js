@@ -48,7 +48,7 @@ function cloneCopyEvent( src, dest ) {
 		events = pdataOld.events;
 
 		if ( events ) {
-			dataPriv.remove( dest, "handle events" );
+			dataPriv.remove( dest, "events" );
 
 			for ( type in events ) {
 				for ( i = 0, l = events[ type ].length; i < l; i++ ) {
