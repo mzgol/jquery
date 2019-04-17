@@ -34,11 +34,3 @@ jQuery.proxy = function( fn, context ) {
 
 	return proxy;
 };
-
-jQuery.holdReady = function( hold ) {
-	if ( hold ) {
-		jQuery.readyWait++;
-	} else {
-		jQuery.ready( true );
-	}
-};

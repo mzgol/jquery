@@ -24,24 +24,15 @@ jQuery.extend( {
 	// Is the DOM ready to be used? Set to true once it occurs.
 	isReady: false,
 
-	// A counter to track how many items to wait for before
-	// the ready event fires. See trac-6781
-	readyWait: 1,
-
-	ready: function( wait ) {
+	ready: function() {
 
 		// Abort if there are pending holds or we're already ready
-		if ( wait === true ? --jQuery.readyWait : jQuery.isReady ) {
+		if ( jQuery.isReady ) {
 			return;
 		}
 
 		// Remember that the DOM is ready
 		jQuery.isReady = true;
-
-		// If a normal DOM Ready event fired, decrement, and wait if need be
-		if ( wait !== true && --jQuery.readyWait > 0 ) {
-			return;
-		}
 
 		whenReady = function( fn ) {
 			readyCallbacks.push( fn );
