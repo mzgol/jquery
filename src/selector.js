@@ -6,13 +6,13 @@ import pop from "./var/pop.js";
 import push from "./var/push.js";
 import whitespace from "./var/whitespace.js";
 import rbuggyQSA from "./selector/rbuggyQSA.js";
-import rtrim from "./var/rtrim.js";
 import isIE from "./var/isIE.js";
 import identifier from "./selector/var/identifier.js";
 import booleans from "./selector/var/booleans.js";
 import rleadingCombinator from "./selector/var/rleadingCombinator.js";
 import rdescend from "./selector/var/rdescend.js";
 import rsibling from "./selector/var/rsibling.js";
+import rtrimSelector from "./selector/var/rtrimSelector.js";
 import matches from "./selector/var/matches.js";
 import createCache from "./selector/createCache.js";
 import testContext from "./selector/testContext.js";
@@ -204,7 +204,7 @@ function find( selector, context, results, seed ) {
 	}
 
 	// All others
-	return select( selector.replace( rtrim, "$1" ), context, results, seed );
+	return select( selector.replace( rtrimSelector, "$1" ), context, results, seed );
 }
 
 /**
@@ -632,7 +632,7 @@ jQuery.expr = {
 			// spaces as combinators
 			var input = [],
 				results = [],
-				matcher = compile( selector.replace( rtrim, "$1" ) );
+				matcher = compile( selector.replace( rtrimSelector, "$1" ) );
 
 			return matcher[ jQuery.expando ] ?
 				markFunction( function( seed, matches, _context, xml ) {
@@ -1104,7 +1104,7 @@ function matcherFromTokens( tokens ) {
 						// If the preceding token was a descendant combinator, insert an implicit any-element `*`
 						tokens.slice( 0, i - 1 )
 							.concat( { value: tokens[ i - 2 ].type === " " ? "*" : "" } )
-					).replace( rtrim, "$1" ),
+					).replace( rtrimSelector, "$1" ),
 					matcher,
 					i < j && matcherFromTokens( tokens.slice( i, j ) ),
 					j < len && matcherFromTokens( ( tokens = tokens.slice( j ) ) ),

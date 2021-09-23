@@ -1748,6 +1748,7 @@ QUnit.testUnlessIE( "css(--customProperty)", function( assert ) {
 		"        --prop10:\f\r\n\t val10 \f\r\n\t;\n" +
 		"        --prop11:\u000C\u000D\u000A\u0009\u0020val11\u0020\u0009\u000A\u000D\u000C;\n" +
 		"        --prop12:\u000Bval12\u000B;\n" +
+		"        --backslash: \\ ;\n" +
 		"        --space: ;\n" +
 		"        --empty:;\n" +
 		"    }\n" +
@@ -1757,8 +1758,8 @@ QUnit.testUnlessIE( "css(--customProperty)", function( assert ) {
 	var div = jQuery( "<div>" ).appendTo( "#qunit-fixture" ),
 		$elem = jQuery( "<div>" ).addClass( "test__customProperties" )
 			.appendTo( "#qunit-fixture" ),
-		webkitOrBlink = /\webkit\b/i.test( navigator.userAgent ),
-		expected = 20;
+		webkitOrBlink = /\bsafari\b/i.test( navigator.userAgent ),
+		expected = 21;
 
 	if ( webkitOrBlink ) {
 		expected -= 2;
@@ -1804,6 +1805,7 @@ QUnit.testUnlessIE( "css(--customProperty)", function( assert ) {
 	assert.equal( $elem.css( "--prop10" ), "val10", "Multiple preceding and following escaped unicode whitespace trimmed" );
 	assert.equal( $elem.css( "--prop11" ), "val11", "Multiple preceding and following unicode whitespace trimmed" );
 	assert.equal( $elem.css( "--prop12" ), "\u000Bval12\u000B", "Multiple preceding and following non-CSS whitespace reserved" );
+	assert.equal( $elem.css( "--backslash" ), "\\", "Whitespace surrounding a backslash" );
 	assert.equal( $elem.css( "--space" ), undefined );
 	assert.equal( $elem.css( "--empty" ), undefined );
 	assert.equal( $elem.css( "--nonexistent" ), undefined );
