@@ -85,18 +85,19 @@ export function domManip( collection, args, callback, ignored ) {
 						!dataPriv.access( node, "globalEval" ) &&
 						jQuery.contains( doc, node ) ) {
 
-						if ( node.src && ( node.type || "" ).toLowerCase()  !== "module" ) {
+						// if ( node.src && ( node.type || "" ).toLowerCase()  !== "module" ) {
+						//
+						// 	// Optional AJAX dependency, but won't run scripts if not present
+						// 	if ( jQuery._evalUrl && !node.noModule ) {
+						// 		jQuery._evalUrl( node.src, {
+						// 			nonce: node.nonce,
+						// 			crossOrigin: node.crossOrigin
+						// 		}, doc );
+						// 	}
+						// } else {
+						DOMEval( node.textContent, node, doc );
 
-							// Optional AJAX dependency, but won't run scripts if not present
-							if ( jQuery._evalUrl && !node.noModule ) {
-								jQuery._evalUrl( node.src, {
-									nonce: node.nonce,
-									crossOrigin: node.crossOrigin
-								}, doc );
-							}
-						} else {
-							DOMEval( node.textContent, node, doc );
-						}
+						// }
 					}
 				}
 			}

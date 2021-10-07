@@ -12,7 +12,7 @@
 	var i, input, elem, policy,
 		results = [];
 
-	function runTests( messagePrefix, getTrustedScriptUrlWrapper ) {
+	function runTests( messagePrefix, getTrustedScriptUrlWrapper, done ) {
 		try {
 			elem = jQuery( "<script><\/script>" )
 				.attr( "src", getTrustedScriptUrlWrapper( "trusted-types-attributes.js" ) );
@@ -23,12 +23,22 @@
 				expected: "trusted-types-attributes.js",
 				message: messagePrefix + ": script URL properly set"
 			} );
+
+			setTimeout( function() {
+				results.push( {
+					actual: window.testMessage,
+					expected: "script run",
+					message: messagePrefix + ": script run"
+				} );
+				done(); // TODO try-catch?
+			}, 1000 )
 		} catch ( e ) {
 			results.push( {
 				actual: "error thrown",
 				expected: "",
 				message: messagePrefix + ": error has been thrown"
 			} );
+			done();
 		}
 	}
 
@@ -41,6 +51,8 @@
 
 		runTests( "TrustedScriptURL", function wrapInTrustedScriptUrl( input ) {
 			return policy.createScriptURL( input );
+		}, function() {
+			startIframeTest( results );
 		} );
 	} else {
 
@@ -52,10 +64,10 @@
 					return input;
 				}
 			};
+		}, function() {
+			startIframeTest( results );
 		} );
 	}
-
-	startIframeTest( results );
 </script>
 </body>
 </html>

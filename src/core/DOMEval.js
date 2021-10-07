@@ -8,18 +8,24 @@ var preservedScriptAttributes = {
 };
 
 export function DOMEval( code, node, doc ) {
-	doc = doc || document;
+	var i, script;
 
-	var i,
+	if ( node.nodeType === 1 ) {
+		script = node;
+	} else {
+
+		doc = doc || document;
 		script = doc.createElement( "script" );
 
-	script.text = code;
-	if ( node ) {
-		for ( i in preservedScriptAttributes ) {
-			if ( node[ i ] ) {
-				script[ i ] = node[ i ];
+		script.text = code;
+		if ( node ) {
+			for ( i in preservedScriptAttributes ) {
+				if ( node[ i ] ) {
+					script[ i ] = node[ i ];
+				}
 			}
 		}
 	}
+
 	doc.head.appendChild( script ).parentNode.removeChild( script );
 }

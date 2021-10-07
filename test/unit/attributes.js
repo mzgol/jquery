@@ -1814,7 +1814,7 @@ testIframe(
 	function( assert, jQuery, window, document, test ) {
 		var done = assert.async();
 
-		assert.expect( 1 );
+		assert.expect( 2 );
 
 		test.forEach( function( result ) {
 			assert.deepEqual( result.actual, result.expected, result.message );
