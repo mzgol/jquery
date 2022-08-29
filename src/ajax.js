@@ -66,7 +66,8 @@ function addToPrefiltersOrTransports( structure ) {
 		if ( typeof func === "function" ) {
 
 			// For each dataType in the dataTypeExpression
-			while ( ( dataType = dataTypes[ i++ ] ) ) {
+			for ( ; i < dataTypes.length; i++ ) {
+				dataType = dataTypes[ i ];
 
 				// Prepend if requested
 				if ( dataType[ 0 ] === "+" ) {

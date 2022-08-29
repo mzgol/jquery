@@ -68,15 +68,16 @@ jQuery.uniqueSort = function( results ) {
 	var elem,
 		duplicates = [],
 		j = 0,
-		i = 0;
+		i = 1;
 
 	hasDuplicate = false;
 
 	sort.call( results, sortOrder );
 
 	if ( hasDuplicate ) {
-		while ( ( elem = results[ i++ ] ) ) {
-			if ( elem === results[ i ] ) {
+		for ( ; i < results.length; i++ ) {
+			elem = results[ i ];
+			if ( elem === results[ i - 1 ] ) {
 				j = duplicates.push( i );
 			}
 		}

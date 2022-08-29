@@ -61,8 +61,8 @@ function buildFragment( elems, context, scripts, selection, ignored ) {
 	// Remove wrapper from fragment
 	fragment.textContent = "";
 
-	i = 0;
-	while ( ( elem = nodes[ i++ ] ) ) {
+	for ( i = 0; i < nodes.length; i++ ) {
+		elem = nodes[ i ];
 
 		// Skip elements already in the context collection (trac-4087)
 		if ( selection && jQuery.inArray( elem, selection ) > -1 ) {
@@ -84,8 +84,8 @@ function buildFragment( elems, context, scripts, selection, ignored ) {
 
 		// Capture executables
 		if ( scripts ) {
-			j = 0;
-			while ( ( elem = tmp[ j++ ] ) ) {
+			for ( j = 0; j < tmp.length; j++ ) {
+				elem = tmp[ j ];
 				if ( rscriptType.test( elem.type || "" ) ) {
 					scripts.push( elem );
 				}

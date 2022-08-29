@@ -175,7 +175,8 @@ function remove( elem, selector, keepData ) {
 		nodes = selector ? jQuery.filter( selector, elem ) : elem,
 		i = 0;
 
-	for ( ; ( node = nodes[ i ] ) != null; i++ ) {
+	for ( ; i < nodes.length; i++ ) {
+		node = nodes[ i ];
 		if ( !keepData && node.nodeType === 1 ) {
 			jQuery.cleanData( getAll( node ) );
 		}
@@ -250,7 +251,8 @@ jQuery.extend( {
 			special = jQuery.event.special,
 			i = 0;
 
-		for ( ; ( elem = elems[ i ] ) !== undefined; i++ ) {
+		for ( ; i < elems.length; i++ ) {
+			elem = elems[ i ];
 			if ( acceptData( elem ) ) {
 				if ( ( data = elem[ dataPriv.expando ] ) ) {
 					if ( data.events ) {
@@ -339,7 +341,8 @@ jQuery.fn.extend( {
 		var elem,
 			i = 0;
 
-		for ( ; ( elem = this[ i ] ) != null; i++ ) {
+		for ( ; i < this.length; i++ ) {
+			elem = this[ i ];
 			if ( elem.nodeType === 1 ) {
 
 				// Prevent memory leaks

@@ -144,7 +144,8 @@ jQuery.fn.extend( {
 			i = 0;
 
 		className = " " + selector + " ";
-		while ( ( elem = this[ i++ ] ) ) {
+		for ( ; i < this.length; i++ ) {
+			elem = this[ i ];
 			if ( elem.nodeType === 1 &&
 				( " " + stripAndCollapse( getClass( elem ) ) + " " ).indexOf( className ) > -1 ) {
 				return true;
