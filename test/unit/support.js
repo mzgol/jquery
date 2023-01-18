@@ -131,6 +131,9 @@ testIframe(
 			assert.ok( false, "Known client: " + userAgent );
 		}
 
+		console.log( "document.referrer", document.referrer );
+		console.log( "window.location.search", window.location.search );
+
 		var i, prop,
 			j = 0;
 
