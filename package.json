@@ -27,6 +27,14 @@
       "script": "./dist/jquery.slim.min.js",
       "default": "./dist-module/jquery.slim.module.min.js"
     },
+    "./factory": {
+      "node": "./dist/jquery.factory.js",
+      "default": "./dist-module/jquery.factory.module.js"
+    },
+    "./factory-slim": {
+      "node": "./dist/jquery.factory.slim.js",
+      "default": "./dist-module/jquery.factory.slim.module.js"
+    },
     "./src/*.js": "./src/*.js"
   },
   "main": "dist/jquery.js",
@@ -98,7 +106,7 @@
   },
   "scripts": {
     "build": "npm install && npm run build-all-variants",
-    "build-all-variants": "grunt custom:slim --esm --filename=jquery.slim.module.js && grunt custom --esm --filename=jquery.module.js && grunt custom:slim --filename=jquery.slim.js && grunt custom",
+    "build-all-variants": "grunt custom:slim --factory --esm --filename=jquery.factory.slim.module.js && grunt custom --factory --esm --filename=jquery.factory.module.js && grunt custom:slim --factory --filename=jquery.factory.slim.js && grunt custom --factory --filename=jquery.factory.js && grunt custom:slim --esm --filename=jquery.slim.module.js && grunt custom --esm --filename=jquery.module.js && grunt custom:slim --filename=jquery.slim.js && grunt custom",
     "start": "grunt watch",
     "test:browserless": "grunt && npm run test:node_smoke_tests && grunt test:slow",
     "test:browser": "grunt && grunt karma:main",
@@ -106,12 +114,18 @@
     "test:no-deprecated": "grunt test:prepare && grunt custom:-deprecated && grunt karma:main",
     "test:selector-native": "grunt test:prepare && grunt custom:-selector && grunt karma:main",
     "test:slim": "grunt test:prepare && grunt custom:slim && grunt karma:main",
-    "test:node_smoke_tests:full-module": "grunt node_smoke_tests:module:./dist-module/jquery.module.js && grunt node_smoke_tests:module:jquery",
-    "test:node_smoke_tests:full-commonjs": "grunt node_smoke_tests:commonjs:./dist/jquery.js && grunt node_smoke_tests:commonjs:jquery",
-    "test:node_smoke_tests:slim-module": "grunt node_smoke_tests:module:./dist-module/jquery.slim.module.js && grunt node_smoke_tests:module:jquery/slim",
-    "test:node_smoke_tests:slim-commonjs": "grunt node_smoke_tests:commonjs:./dist/jquery.slim.js && grunt node_smoke_tests:commonjs:jquery/slim",
-    "test:node_smoke_tests": "npm run test:node_smoke_tests:full-module && npm run test:node_smoke_tests:slim-module && npm run test:node_smoke_tests:full-commonjs && npm run test:node_smoke_tests:slim-commonjs",
-    "test": "npm run test:browserless && npm run test:slim && npm run test:no-deprecated && npm run test:selector-native && grunt && grunt test:slow && grunt karma:main && grunt karma:esmodules",
+    "test:node_smoke_tests:regular-full-module": "grunt node_smoke_tests:regular:module:./dist-module/jquery.module.js && grunt node_smoke_tests:regular:module:jquery",
+    "test:node_smoke_tests:regular-slim-module": "grunt node_smoke_tests:regular:module:./dist-module/jquery.slim.module.js && grunt node_smoke_tests:regular:module:jquery/slim",
+    "test:node_smoke_tests:regular-full-commonjs": "grunt node_smoke_tests:regular:commonjs:./dist/jquery.js && grunt node_smoke_tests:regular:commonjs:jquery",
+    "test:node_smoke_tests:regular-slim-commonjs": "grunt node_smoke_tests:regular:commonjs:./dist/jquery.slim.js && grunt node_smoke_tests:regular:commonjs:jquery/slim",
+    "test:node_smoke_tests:factory-full-module": "grunt node_smoke_tests:factory:module:./dist-module/jquery.factory.module.js && grunt node_smoke_tests:factory:module:jquery/factory",
+    "test:node_smoke_tests:factory-slim-module": "grunt node_smoke_tests:factory:module:./dist-module/jquery.factory.slim.module.js && grunt node_smoke_tests:factory:module:jquery/factory-slim",
+    "test:node_smoke_tests:factory-full-commonjs": "grunt node_smoke_tests:factory:commonjs:./dist/jquery.factory.js && grunt node_smoke_tests:factory:commonjs:jquery/factory",
+    "test:node_smoke_tests:factory-slim-commonjs": "grunt node_smoke_tests:factory:commonjs:./dist/jquery.factory.slim.js && grunt node_smoke_tests:factory:commonjs:jquery/factory-slim",
+    "test:node_smoke_tests:regular": "npm run test:node_smoke_tests:regular-full-module && npm run test:node_smoke_tests:regular-slim-module && npm run test:node_smoke_tests:regular-full-commonjs && npm run test:node_smoke_tests:regular-slim-commonjs",
+    "test:node_smoke_tests:factory": "npm run test:node_smoke_tests:factory-full-module && npm run test:node_smoke_tests:factory-slim-module && npm run test:node_smoke_tests:factory-full-commonjs && npm run test:node_smoke_tests:factory-slim-commonjs",
+    "test:node_smoke_tests": "npm run test:node_smoke_tests:regular && npm run test:node_smoke_tests:factory",
+    "test": "npm run test:node_smoke_tests && npm run test:slim && npm run test:no-deprecated && npm run test:selector-native && grunt && grunt test:slow && grunt karma:main && grunt karma:esmodules",
     "jenkins": "npm run test:browserless"
   },
   "commitplease": {

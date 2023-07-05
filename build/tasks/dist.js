@@ -4,10 +4,15 @@ module.exports = function( grunt ) {
 	const fs = require( "fs" );
 	const filename = grunt.option( "filename" );
 	const distFolder = grunt.option( "dist-folder" );
+	const factory = !!grunt.option( "factory" );
 	const distPaths = [
 		`${ distFolder }/${ filename }`,
-		`${ distFolder }/${ filename.replace( ".js", ".min.js" ) }`,
-		`${ distFolder }/${ filename.replace( ".js", ".min.map" ) }`
+
+		// We don't minify factory files; they are not meant for the browser anyway.
+		...( factory ? [] : [
+			`${ distFolder }/${ filename.replace( ".js", ".min.js" ) }`,
+			`${ distFolder }/${ filename.replace( ".js", ".min.map" ) }`
+		] )
 	];
 
 	// Process files for distribution

@@ -23,9 +23,14 @@ module.exports = function( grunt ) {
 	};
 
 	function getOutputRollupOptions( {
-		esm = false
+		esm = false,
+		factory = false
 	} = {} ) {
-		const wrapperFileName = `wrapper${ esm ? "-esm" : "" }.js`;
+		const wrapperFileName = `wrapper${
+			factory ? "-factory" : ""
+		}${
+			esm ? "-esm" : ""
+		}.js`;
 
 		// Catch `// @CODE` and subsequent comment lines event if they don't start
 		// in the first column.
@@ -69,6 +74,7 @@ module.exports = function( grunt ) {
 			const optIn = flags[ "*" ];
 			let name = grunt.option( "filename" );
 			const esm = !!grunt.option( "esm" );
+			const factory = !!grunt.option( "factory" );
 			const distFolder = grunt.option( "dist-folder" );
 			const minimum = this.data.minimum;
 			const removeWith = this.data.removeWith;
@@ -305,7 +311,7 @@ module.exports = function( grunt ) {
 			} );
 
 			const outputRollupOptions =
-				getOutputRollupOptions( { esm } );
+				getOutputRollupOptions( { esm, factory } );
 
 			const { output: [ { code } ] } = await bundle.generate( outputRollupOptions );
 
@@ -348,8 +354,16 @@ module.exports = function( grunt ) {
 		const modules = args.length ?
 			args[ 0 ].split( "," ).join( ":" ) :
 			"";
+		const factory = !!grunt.option( "factory" );
 
 		grunt.log.writeln( "Creating custom build...\n" );
-		grunt.task.run( [ "build:*:*" + ( modules ? ":" + modules : "" ), "minify", "dist" ] );
+		grunt.task.run( [
+			"build:*:*" + ( modules ? ":" + modules : "" ),
+
+			// Don't minify factory files; they are not meant for the browser anyway.
+			...( factory ? [] : [ "minify" ] ),
+
+			"dist"
+		] );
 	} );
 };

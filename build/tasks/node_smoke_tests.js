@@ -5,14 +5,18 @@ module.exports = ( grunt ) => {
 	const spawnTest = require( "./lib/spawn_test.js" );
 	const nodeV16OrNewer = !/^v1[0-5]\./.test( process.version );
 
-	grunt.registerTask( "node_smoke_tests", function( moduleType, jQueryModuleSpecifier ) {
+	grunt.registerTask( "node_smoke_tests",
+			function( libraryMode, moduleType, jQueryModuleSpecifier ) {
 		if (
+			( libraryMode !== "regular" && libraryMode !== "factory" ) ||
 			( moduleType !== "commonjs" && moduleType !== "module" ) ||
 			!jQueryModuleSpecifier
 		) {
-			grunt.fatal( "Use `node_smoke_tests:commonjs:JQUERY` " +
-				"or `node_smoke_tests:module:JQUERY.\n" +
-				"JQUERY can be `jquery`, `jquery/slim` or a path to any of them." );
+			grunt.fatal( "Use `node_smoke_tests:LIBRARY_MODE:MODULE_TYPE:JQUERY`.\n" +
+				"LIBRARY_MODE can be `regular` or `factory`.\n" +
+				"MODULE_TYPE can be `commonjs` or `module`.\n" +
+				"JQUERY can be `jquery`, `jquery/slim` or a path to any of them."
+			);
 		}
 
 		if ( !nodeV16OrNewer ) {
@@ -21,7 +25,7 @@ module.exports = ( grunt ) => {
 			return;
 		}
 
-		const testsDir = `./test/node_smoke_tests/${ moduleType }`;
+		const testsDir = `./test/node_smoke_tests/${ moduleType }/${ libraryMode }`;
 		const nodeSmokeTests = [];
 
 		// Fire up all tests defined in test/node_smoke_tests/*.js in spawned sub-processes.

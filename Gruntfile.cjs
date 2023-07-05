@@ -41,10 +41,14 @@ module.exports = function( grunt ) {
 		"dist/jquery.min.js",
 		"dist/jquery.slim.js",
 		"dist/jquery.slim.min.js",
+		"dist/jquery.factory.js",
+		"dist/jquery.factory.slim.js",
 		"dist-module/jquery.module.js",
 		"dist-module/jquery.module.min.js",
 		"dist-module/jquery.slim.module.js",
-		"dist-module/jquery.slim.module.min.js"
+		"dist-module/jquery.slim.module.min.js",
+		"dist-module/jquery.factory.module.js",
+		"dist-module/jquery.factory.slim.module.js",
 	];
 
 	const builtJsMinFiles = builtJsFiles
@@ -427,7 +431,7 @@ module.exports = function( grunt ) {
 		runIfNewNode( "newer:eslint:dist" )
 	] );
 
-	grunt.registerTask( "test:fast", [ "node_smoke_tests:commonjs:jquery" ] );
+	grunt.registerTask( "test:fast", [ "node_smoke_tests:factory:commonjs:jquery/factory" ] );
 	grunt.registerTask( "test:slow", [
 		runIfNewNode( "promises_aplus_tests" ),
 
