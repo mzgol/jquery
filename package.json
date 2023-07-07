@@ -27,14 +27,8 @@
       "script": "./dist/jquery.slim.min.js",
       "default": "./dist-module/jquery.slim.module.min.js"
     },
-    "./factory": {
-      "node": "./dist/jquery.factory.js",
-      "default": "./dist-module/jquery.factory.module.js"
-    },
-    "./factory-slim": {
-      "node": "./dist/jquery.factory.slim.js",
-      "default": "./dist-module/jquery.factory.slim.module.js"
-    },
+    "./factory": "./dist/jquery.factory.js",
+    "./factory-slim": "./dist/jquery.factory.slim.js",
     "./src/*.js": "./src/*.js"
   },
   "main": "dist/jquery.js",
@@ -106,7 +100,7 @@
   },
   "scripts": {
     "build": "npm install && npm run build-all-variants",
-    "build-all-variants": "grunt custom:slim --factory --esm --filename=jquery.factory.slim.module.js && grunt custom --factory --esm --filename=jquery.factory.module.js && grunt custom:slim --factory --filename=jquery.factory.slim.js && grunt custom --factory --filename=jquery.factory.js && grunt custom:slim --esm --filename=jquery.slim.module.js && grunt custom --esm --filename=jquery.module.js && grunt custom:slim --filename=jquery.slim.js && grunt custom",
+    "build-all-variants": "grunt custom:slim --factory --filename=jquery.factory.slim.js && grunt custom --factory --filename=jquery.factory.js && grunt custom:slim --esm --filename=jquery.slim.module.js && grunt custom --esm --filename=jquery.module.js && grunt custom:slim --filename=jquery.slim.js && grunt custom",
     "start": "grunt watch",
     "test:browserless": "grunt && npm run test:node_smoke_tests && grunt test:slow",
     "test:browser": "grunt && grunt karma:main",
@@ -118,8 +112,8 @@
     "test:node_smoke_tests:regular-slim-module": "grunt node_smoke_tests:regular:module:./dist-module/jquery.slim.module.js && grunt node_smoke_tests:regular:module:jquery/slim",
     "test:node_smoke_tests:regular-full-commonjs": "grunt node_smoke_tests:regular:commonjs:./dist/jquery.js && grunt node_smoke_tests:regular:commonjs:jquery",
     "test:node_smoke_tests:regular-slim-commonjs": "grunt node_smoke_tests:regular:commonjs:./dist/jquery.slim.js && grunt node_smoke_tests:regular:commonjs:jquery/slim",
-    "test:node_smoke_tests:factory-full-module": "grunt node_smoke_tests:factory:module:./dist-module/jquery.factory.module.js && grunt node_smoke_tests:factory:module:jquery/factory",
-    "test:node_smoke_tests:factory-slim-module": "grunt node_smoke_tests:factory:module:./dist-module/jquery.factory.slim.module.js && grunt node_smoke_tests:factory:module:jquery/factory-slim",
+    "test:node_smoke_tests:factory-full-module": "grunt node_smoke_tests:factory:module:./dist/jquery.factory.js && grunt node_smoke_tests:factory:module:jquery/factory",
+    "test:node_smoke_tests:factory-slim-module": "grunt node_smoke_tests:factory:module:./dist/jquery.factory.slim.js && grunt node_smoke_tests:factory:module:jquery/factory-slim",
     "test:node_smoke_tests:factory-full-commonjs": "grunt node_smoke_tests:factory:commonjs:./dist/jquery.factory.js && grunt node_smoke_tests:factory:commonjs:jquery/factory",
     "test:node_smoke_tests:factory-slim-commonjs": "grunt node_smoke_tests:factory:commonjs:./dist/jquery.factory.slim.js && grunt node_smoke_tests:factory:commonjs:jquery/factory-slim",
     "test:node_smoke_tests:regular": "npm run test:node_smoke_tests:regular-full-module && npm run test:node_smoke_tests:regular-slim-module && npm run test:node_smoke_tests:regular-full-commonjs && npm run test:node_smoke_tests:regular-slim-commonjs",

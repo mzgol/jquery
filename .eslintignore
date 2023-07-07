@@ -15,8 +15,6 @@ dist-module/**
 !dist-module/jquery.slim.module.min.js
 !dist-module/jquery.node-module-wrapper.js
 !dist-module/jquery.node-module-wrapper.slim.js
-!dist-module/jquery.factory.module.js
-!dist-module/jquery.factory.slim.module.js
 test/data/jquery-1.9.1.js
 test/data/badcall.js
 test/data/badjson.js
