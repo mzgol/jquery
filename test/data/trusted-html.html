@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset=utf-8 />
-	<title>body</title>
+	<title>Trusted HTML tests</title>
 </head>
 <body>
 <div id="qunit-fixture"></div>
@@ -20,27 +20,35 @@
 		];
 
 	function runTests( messagePrefix, getHtmlWrapper ) {
-		for ( i = 0; i < inputs.length; i++ ) {
-			input = inputs[ i ];
-			elem = jQuery( getHtmlWrapper( input[ 0 ] ) );
-			elem.append( getHtmlWrapper( input[ 1 ] ) );
-			tags = elem.find( ".test" ).toArray().map( function( node ) {
-				return node.nodeName.toLowerCase();
-			} );
+		try {
+			for ( i = 0; i < inputs.length; i++ ) {
+				input = inputs[ i ];
+				elem = jQuery( getHtmlWrapper( input[ 0 ] ) );
+				elem.append( getHtmlWrapper( input[ 1 ] ) );
+				tags = elem.find( ".test" ).toArray().map( function( node ) {
+					return node.nodeName.toLowerCase();
+				} );
+				results.push( {
+					actual: tags,
+					expected: input[ 2 ],
+					message: messagePrefix + ": " + input[ 2 ].join( ", " )
+				} );
+			}
+
+			elem = jQuery( getHtmlWrapper( "<div></div>" ) );
+			elem.append( getHtmlWrapper( "text content" ) );
 			results.push( {
-				actual: tags,
-				expected: input[ 2 ],
-				message: messagePrefix + ": " + input[ 2 ].join( ", " )
+				actual: elem.html(),
+				expected: "text content",
+				message: messagePrefix + ": text content properly appended"
+			} );
+		} catch ( e ) {
+			results.push( {
+				actual: "error thrown",
+				expected: "",
+				message: messagePrefix + ": error has been thrown"
 			} );
 		}
-
-		elem = jQuery( getHtmlWrapper( "<div></div>" ) );
-		elem.append( getHtmlWrapper( "text content" ) );
-		results.push( {
-			actual: elem.html(),
-			expected: "text content",
-			message: messagePrefix + ": text content properly appended"
-		} );
 	}
 
 	if ( typeof trustedTypes !== "undefined" ) {
