@@ -412,6 +412,7 @@ this.loadTests = function() {
 				// not fully supported environments like Android 2.3,
 				// jsdom or PhantomJS. We run it everywhere, though,
 				// to make sure tests are not broken.
+				"https://releases.jquery.com/git/jquery-migrate-git.js",
 				"unit/basic.js",
 
 				"unit/core.js",
@@ -443,7 +444,11 @@ this.loadTests = function() {
 
 			if ( dep ) {
 				if ( !QUnit.basicTests || i === 1 ) {
-					require( [ parentUrl + "/test/" + dep ], loadDep );
+					if ( dep.indexOf( "http" ) === 0 ) {
+						require( [ dep ], loadDep );
+					} else {
+						require( [ parentUrl + "/test/" + dep ], loadDep );
+					}
 
 				// Support: Android 2.3 only
 				// When running basic tests, replace other modules with dummies to avoid overloading

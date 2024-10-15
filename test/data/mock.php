@@ -215,7 +215,7 @@ QUnit.assert.ok( true, "mock executed");';
 	}
 
 	protected function cspFrame( $req ) {
-		header( "Content-Security-Policy: default-src 'self'; report-uri ./mock.php?action=cspLog" );
+		header( "Content-Security-Policy: default-src 'self' https://releases.jquery.com https://code.jquery.com; report-uri ./mock.php?action=cspLog" );
 		header( 'Content-type: text/html' );
 		echo file_get_contents( __DIR__ . '/csp.include.html' );
 	}

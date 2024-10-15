@@ -233,7 +233,7 @@ const mocks = {
 	cspFrame: function( _req, resp ) {
 		resp.writeHead( 200, {
 			"Content-Type": "text/html",
-			"Content-Security-Policy": "default-src 'self'; " +
+			"Content-Security-Policy": "default-src 'self' https://releases.jquery.com https://code.jquery.com; " +
 				"report-uri /test/data/mock.php?action=cspLog"
 		} );
 		const body = fs.readFileSync( `${ __dirname }/data/csp.include.html` ).toString();
