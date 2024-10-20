@@ -3073,6 +3073,47 @@ QUnit.test( "Sanitized HTML doesn't get unsanitized", function( assert ) {
 	}
 } );
 
+QUnit.test( "Parsing consistent with `document.write`", function( assert ) {
+	var domStructure;
+
+	assert.expect( 1 );
+
+	function repeatString( str, count ) {
+		var ret = "";
+		while ( count ) {
+			ret += str;
+			count--;
+		}
+		return ret;
+	}
+
+	function serializeNodeNames( nodes, offset ) {
+		var i, node,
+			result = "";
+		offset = offset || 0;
+
+		for ( i = 0; i < nodes.length; i++ ) {
+			node = nodes[ i ];
+			result += repeatString( "  ", offset ) + node.nodeName.toLowerCase() + "\n";
+			result += serializeNodeNames( node.childNodes, offset + 1 );
+		}
+
+		return result;
+	}
+
+	domStructure = jQuery.parseHTML(
+		"<svg><p><style><img src=\"</style><img//\">" );
+
+	assert.strictEqual( serializeNodeNames( domStructure ),
+		"svg\n" +
+		"p\n" +
+		"  style\n" +
+		"    #text\n" +
+		"  img\n" +
+		"",
+		"Parsing consistent with `document.write`" );
+} );
+
 QUnit.test( "Works with invalid attempts to close the table wrapper", function( assert ) {
 	assert.expect( 3 );
 
