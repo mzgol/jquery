@@ -1,6 +1,14 @@
 QUnit.module( "event", {
 	beforeEach: function() {
 		document.body.focus();
+
+		// Support: IE 11+
+		// In IE, focus is async; give the browser some time to settle.
+		if ( QUnit.isIE ) {
+			return new Promise( function( resolve ) {
+				setTimeout( resolve, 100 );
+			} );
+		}
 	},
 	afterEach: moduleTeardown
 } );
