@@ -9,7 +9,6 @@ const VERSION = 2;
 const lastRunBranch = " last run";
 
 const gzip = promisify( zlib.gzip );
-const brotli = promisify( zlib.brotliCompress );
 const exec = promisify( nodeExec );
 
 async function getBranchName() {
@@ -54,8 +53,7 @@ function cacheResults( results ) {
 	results.forEach( function( result ) {
 		files[ result.filename ] = {
 			raw: result.raw,
-			gz: result.gz,
-			br: result.br
+			gz: result.gz
 		};
 	} );
 	return files;
@@ -105,7 +103,6 @@ export async function compareSize( { cache = ".sizecache.json", files } = {} ) {
 
 	let rawPadLength = 0;
 	let gzPadLength = 0;
-	let brPadLength = 0;
 	const results = await Promise.all(
 		files.map( async function( filename ) {
 
@@ -119,27 +116,23 @@ export async function compareSize( { cache = ".sizecache.json", files } = {} ) {
 
 			const size = Buffer.byteLength( contents, "utf8" );
 			const gzippedSize = ( await gzip( contents ) ).length;
-			const brotlifiedSize = ( await brotli( contents ) ).length;
 
 			// Add one to give space for the `+` or `-` in the comparison
 			rawPadLength = Math.max( rawPadLength, size.toString().length + 1 );
 			gzPadLength = Math.max( gzPadLength, gzippedSize.toString().length + 1 );
-			brPadLength = Math.max( brPadLength, brotlifiedSize.toString().length + 1 );
 
-			return { filename, raw: size, gz: gzippedSize, br: brotlifiedSize };
+			return { filename, raw: size, gz: gzippedSize };
 		} )
 	);
 
 	const sizeHeader = "raw".padStart( rawPadLength ) +
 		"gz".padStart( gzPadLength + 1 ) +
-		"br".padStart( brPadLength + 1 ) +
 		" Filename";
 
 	const sizes = results.map( function( result ) {
 		const rawSize = result.raw.toString().padStart( rawPadLength );
 		const gzSize = result.gz.toString().padStart( gzPadLength );
-		const brSize = result.br.toString().padStart( brPadLength );
-		return `${ rawSize } ${ gzSize } ${ brSize } ${ result.filename }`;
+		return `${ rawSize } ${ gzSize } ${ result.filename }`;
 	} );
 
 	const comparisons = Object.keys( sizeCache ).sort( sortBranches ).map( function( branch ) {
@@ -155,8 +148,7 @@ export async function compareSize( { cache = ".sizecache.json", files } = {} ) {
 
 			const compareRaw = compareSizes( branchResult.raw, compareResult.raw, rawPadLength );
 			const compareGz = compareSizes( branchResult.gz, compareResult.gz, gzPadLength );
-			const compareBr = compareSizes( branchResult.br, compareResult.br, brPadLength );
-			return `${ compareRaw } ${ compareGz } ${ compareBr } ${ filename }`;
+			return `${ compareRaw } ${ compareGz } ${ filename }`;
 		} );
 
 		return [
