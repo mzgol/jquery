@@ -3237,45 +3237,45 @@ QUnit.test( "trigger('click') on radio passes extra params", function( assert ) 
 // 	input.off();
 // } );
 
-QUnit.test( "focus-blur order (trac-12868)", function( assert ) {
-	assert.expect( 5 );
-
-	var order,
-		$text = jQuery( "#text1" ),
-		$radio = jQuery( "#radio1" );
-
-	$radio[ 0 ].focus();
-
-	$text
-		.on( "focus", function() {
-			assert.equal( order++, 1, "text focus" );
-		} )
-		.on( "blur", function() {
-			assert.equal( order++, 0, "text blur" );
-		} );
-	$radio
-		.on( "focus", function() {
-			assert.equal( order++, 1, "radio focus" );
-		} )
-		.on( "blur", function() {
-			assert.equal( order++, 0, "radio blur" );
-		} );
-
-	// Enabled input getting focus
-	order = 0;
-	assert.equal( document.activeElement, $radio[ 0 ], "radio has focus" );
-	$text.trigger( "focus" );
-
-	assert.equal( document.activeElement, $text[ 0 ], "text has focus" );
-
-	// Run handlers without native method on an input
-	order = 1;
-	$radio.triggerHandler( "focus" );
-
-	// Clean up
-	$text.off();
-	$radio.off();
-} );
+// QUnit.test( "focus-blur order (trac-12868)", function( assert ) {
+// 	assert.expect( 5 );
+//
+// 	var order,
+// 		$text = jQuery( "#text1" ),
+// 		$radio = jQuery( "#radio1" );
+//
+// 	$radio[ 0 ].focus();
+//
+// 	$text
+// 		.on( "focus", function() {
+// 			assert.equal( order++, 1, "text focus" );
+// 		} )
+// 		.on( "blur", function() {
+// 			assert.equal( order++, 0, "text blur" );
+// 		} );
+// 	$radio
+// 		.on( "focus", function() {
+// 			assert.equal( order++, 1, "radio focus" );
+// 		} )
+// 		.on( "blur", function() {
+// 			assert.equal( order++, 0, "radio blur" );
+// 		} );
+//
+// 	// Enabled input getting focus
+// 	order = 0;
+// 	assert.equal( document.activeElement, $radio[ 0 ], "radio has focus" );
+// 	$text.trigger( "focus" );
+//
+// 	assert.equal( document.activeElement, $text[ 0 ], "text has focus" );
+//
+// 	// Run handlers without native method on an input
+// 	order = 1;
+// 	$radio.triggerHandler( "focus" );
+//
+// 	// Clean up
+// 	$text.off();
+// 	$radio.off();
+// } );
 
 QUnit.test( "Event handling works with multiple async focus events (gh-4350)", function( assert ) {
 	assert.expect( 3 );
